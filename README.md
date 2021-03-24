@@ -4,6 +4,7 @@ security. More specifically, the admin can create, read, update, and delete (CRU
 categories and products. Furthermore, a user can add, products in a shopping cart, edit this cart and
 proceed to paying for the products by PayPal.
 Technologies used:
+
 ▪ Spring Boot
 ▪ Thymeleaf
 ▪ Spring Data Jpa
@@ -21,6 +22,5 @@ Technologies used:
 
 ![image](https://user-images.githubusercontent.com/58227282/112345793-0631a300-8cce-11eb-8649-8303d92749bb.png)
 
-![image](https://user-images.githubusercontent.com/58227282/112346098-4d1f9880-8cce-11eb-9d41-e96172a5fdb9.png)
-
+![image](https://user-images.githubusercontent.com/58227282/112346226-6b859400-8cce-11eb-98f1-9f4c9d1a8f94.png)
 I completed this Web application with the assistance of the following udemy course: Spring and Spring Boot - Learn by building projects
