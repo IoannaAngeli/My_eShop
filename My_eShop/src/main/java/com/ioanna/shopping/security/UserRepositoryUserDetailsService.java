@@ -14,28 +14,27 @@ import com.ioanna.shopping.models.data.User;
 @Service
 public class UserRepositoryUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepo;
+	@Autowired
+	private UserRepository userRepo;
 
-    @Autowired
-    private AdminRepository adminRepo;
-    
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	@Autowired
+	private AdminRepository adminRepo;
 
-        User user = userRepo.findByUsername(username);
-        Admin admin = adminRepo.findByUsername(username);
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        if (user != null) {
-            return user;
-        }
+		User user = userRepo.findByUsername(username);
+		Admin admin = adminRepo.findByUsername(username);
 
-        if (admin != null) {
-            return admin;
-        }
+		if (user != null) {
+			return user;
+		}
 
-        throw new UsernameNotFoundException("User: " + username + " not found!");
-    }
+		if (admin != null) {
+			return admin;
+		}
 
-    
+		throw new UsernameNotFoundException("User: " + username + " not found!");
+	}
+
 }

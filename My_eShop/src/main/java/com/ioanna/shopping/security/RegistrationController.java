@@ -18,32 +18,32 @@ import com.ioanna.shopping.models.data.User;
 @RequestMapping("/register")
 public class RegistrationController {
 
-    @Autowired
-    private UserRepository userRepo;
-    
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+	@Autowired
+	private UserRepository userRepo;
 
-    @GetMapping
-    public String register(User user) {
-        return "register";
-    }
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-    @PostMapping
-    public String register(@Valid User user, BindingResult bindingResult, Model model) {
+	@GetMapping
+	public String register(User user) {
+		return "register";
+	}
 
-        if (bindingResult.hasErrors()) {
-            return "register";
-        }
+	@PostMapping
+	public String register(@Valid User user, BindingResult bindingResult, Model model) {
 
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
-            model.addAttribute("passwordMatchProblem", "Passwords do not match!");
-            return "register";
-        }
+		if (bindingResult.hasErrors()) {
+			return "register";
+		}
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepo.save(user);
+		if (!user.getPassword().equals(user.getConfirmPassword())) {
+			model.addAttribute("passwordMatchProblem", "Passwords do not match!");
+			return "register";
+		}
 
-        return "redirect:/login";
-    }
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		userRepo.save(user);
+
+		return "redirect:/login";
+	}
 }

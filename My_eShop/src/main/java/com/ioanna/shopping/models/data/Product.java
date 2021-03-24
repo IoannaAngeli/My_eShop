@@ -15,51 +15,45 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name="products")
+@Table(name = "products")
 public class Product {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
 
-	@Size(min=2, message="Name must be at least 2 characters long.")
+	@Size(min = 2, message = "Name must be at least 2 characters long.")
 	private String name;
-	
-	private String slug;
-	
 
-	@Size(min=5, message="Description must be at least 5 characters long.")
+	private String slug;
+
+	@Size(min = 5, message = "Description must be at least 5 characters long.")
 	private String description;
-	
+
 	private String image;
-	
-	@Pattern(regexp="^[0-9]+([.][0-9]{1,2})?", message="Expected format: 2, 3.99, 18, 11.80")
-	private String price;    //String so as to be validated more easily
-	
-	@Pattern(regexp="^[1-9][0-9]*", message="Please choose a category.")
-	@Column(name="category_id")
+
+	@Pattern(regexp = "^[0-9]+([.][0-9]{1,2})?", message = "Expected format: 2, 3.99, 18, 11.80")
+	private String price; // String so as to be validated more easily
+
+	@Pattern(regexp = "^[1-9][0-9]*", message = "Please choose a category.")
+	@Column(name = "category_id")
 	private String categoryId;
-	
-	@Column(name="created_at", updatable = false)
-	@CreationTimestamp       //in order to be automatically filled
+
+	@Column(name = "created_at", updatable = false)
+	@CreationTimestamp // in order to be automatically filled
 	private LocalDateTime createdAt;
-	
-	@Column(name="updated_at")
-	@UpdateTimestamp 
+
+	@Column(name = "updated_at")
+	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 
 	public int getId() {
 		return id;
 	}
-	
-	
 
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
 
 	public String getName() {
 		return name;
@@ -125,6 +119,5 @@ public class Product {
 //		this.updatedAt = updatedAt;
 //	}
 //	
-	
 
 }
