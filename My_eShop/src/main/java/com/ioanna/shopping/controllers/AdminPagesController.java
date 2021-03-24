@@ -23,130 +23,124 @@ import com.ioanna.shopping.models.data.Page;
 @Controller
 @RequestMapping("/admin/pages")
 public class AdminPagesController {
-	
+
 	@Autowired
 	private PageRepository pageRepo;
-	
-//	public AdminPagesController(PageRepository pageRepo) {
-//		this.pageRepo = pageRepo;
-//		
-//	}   => Δεν χρειαζεται γιατι έβαλα το autowired
-	
-	//Αυτο το Getmapping το αφήνω σκέτο γιατί εχω βάλει path τον Controller
+
 	@GetMapping
-	public String index(Model model){
-		
+	public String index(Model model) {
+
 		List<Page> pages = pageRepo.findAllByOrderBySortingAsc();
 		model.addAttribute("pages", pages);
-		
+
 		return "admin/pages/index";
-		
+
 	}
-	
-    @GetMapping("/add")
-    public String add(@ModelAttribute Page page) {
-        
-        // model.addAttribute("page", new Page());
 
-        return "admin/pages/add";
-    }
-    
-    @PostMapping("/add")
-    public String add(@Valid Page page, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+	@GetMapping("/add")
+	public String add(@ModelAttribute Page page) {
 
-        if (bindingResult.hasErrors()) {
-            return "admin/pages/add";
-        }
+		// model.addAttribute("page", new Page());
 
-        // Σε περιπτωση επιτυχίας θέλουμε να φαίνονται τα μηνύματα
-        redirectAttributes.addFlashAttribute("message", "Page added");
-        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-        
-        //it is not mandatorry
-        String slug = page.getSlug() == "" ? page.getTitle().toLowerCase().replace(" ", "-") : page.getSlug().toLowerCase().replace(" ", "-");
+		return "admin/pages/add";
+	}
 
-        Page slugExists = pageRepo.findBySlug(slug);
+	@PostMapping("/add")
+	public String add(@Valid Page page, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+			Model model) {
 
-        if ( slugExists != null ) {
-            redirectAttributes.addFlashAttribute("message", "Slug exists, choose another");
-            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-            redirectAttributes.addFlashAttribute("page", page);
+		if (bindingResult.hasErrors()) {
+			return "admin/pages/add";
+		}
 
-        } else {
-            page.setSlug(slug);
-            page.setSorting(100);
+		redirectAttributes.addFlashAttribute("message", "Page added");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
-            pageRepo.save(page);
-        }
+		// it is not mandatory
+		String slug = page.getSlug() == "" ? page.getTitle().toLowerCase().replace(" ", "-")
+				: page.getSlug().toLowerCase().replace(" ", "-");
 
-        return "redirect:/admin/pages/add";
-    }
-    
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable int id, Model model) {
-        
-        Page page = pageRepo.getOne(id);
-        model.addAttribute("page", page);
+		Page slugExists = pageRepo.findBySlug(slug);
 
-        return "admin/pages/edit";
-    }
-    
-    @PostMapping("/edit")
-    public String edit(@Valid Page page, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+		if (slugExists != null) {
+			redirectAttributes.addFlashAttribute("message", "Slug exists, choose another");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			redirectAttributes.addFlashAttribute("page", page);
 
-        Page pageCurrent = pageRepo.getOne(page.getId());
+		} else {
+			page.setSlug(slug);
+			page.setSorting(100);
 
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("pageTitle", pageCurrent.getTitle());
-            return "admin/pages/edit";
-        }
+			pageRepo.save(page);
+		}
 
-        redirectAttributes.addFlashAttribute("message", "Page edited");
-        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		return "redirect:/admin/pages/add";
+	}
 
-        String slug = page.getSlug() == "" ? page.getTitle().toLowerCase().replace(" ", "-") : page.getSlug().toLowerCase().replace(" ", "-");
+	@GetMapping("/edit/{id}")
+	public String edit(@PathVariable int id, Model model) {
 
-        Page slugExists = pageRepo.findBySlugAndIdNot(slug, page.getId());
+		Page page = pageRepo.getOne(id);
+		model.addAttribute("page", page);
 
-        if ( slugExists != null ) {
-            redirectAttributes.addFlashAttribute("message", "Slug exists, choose another");
-            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-            redirectAttributes.addFlashAttribute("page", page);
+		return "admin/pages/edit";
+	}
 
-        } else {
-            page.setSlug(slug);
+	@PostMapping("/edit")
+	public String edit(@Valid Page page, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+			Model model) {
 
-            pageRepo.save(page);
-        }
+		Page pageCurrent = pageRepo.getOne(page.getId());
 
-        return "redirect:/admin/pages/edit/" + page.getId();
-    }
-    
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable int id, RedirectAttributes redirectAttributes) {
-        
-        pageRepo.deleteById(id);
-        
-        redirectAttributes.addFlashAttribute("message", "Page deleted");
-        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("pageTitle", pageCurrent.getTitle());
+			return "admin/pages/edit";
+		}
 
+		redirectAttributes.addFlashAttribute("message", "Page edited");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
-        return "redirect:/admin/pages";
-    }
-    
-    
-    @PostMapping("/reorder")
-    public @ResponseBody String reorder(@RequestParam("id[]") int[] id) {
-    	int count = 1;
-    	Page page;
-    	for(int pageId:id) {
-    		page=pageRepo.getOne(pageId);
-    		page.setSorting(count);
-    		pageRepo.save(page);
-    		count++;
-    	}
-    	
-    	return "ok";
-    }
+		String slug = page.getSlug() == "" ? page.getTitle().toLowerCase().replace(" ", "-")
+				: page.getSlug().toLowerCase().replace(" ", "-");
+
+		Page slugExists = pageRepo.findBySlugAndIdNot(slug, page.getId());
+
+		if (slugExists != null) {
+			redirectAttributes.addFlashAttribute("message", "Slug exists, choose another");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			redirectAttributes.addFlashAttribute("page", page);
+
+		} else {
+			page.setSlug(slug);
+
+			pageRepo.save(page);
+		}
+
+		return "redirect:/admin/pages/edit/" + page.getId();
+	}
+
+	@GetMapping("/delete/{id}")
+	public String delete(@PathVariable int id, RedirectAttributes redirectAttributes) {
+
+		pageRepo.deleteById(id);
+
+		redirectAttributes.addFlashAttribute("message", "Page deleted");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
+		return "redirect:/admin/pages";
+	}
+
+	@PostMapping("/reorder")
+	public @ResponseBody String reorder(@RequestParam("id[]") int[] id) {
+		int count = 1;
+		Page page;
+		for (int pageId : id) {
+			page = pageRepo.getOne(pageId);
+			page.setSorting(count);
+			pageRepo.save(page);
+			count++;
+		}
+		return "ok";
+	}
 
 }

@@ -93,7 +93,6 @@ public class AdminProductsController {
 	            return "admin/products/add";
 	        }
 	        
-	        //Code for the Image
 	        boolean isFileOk = false;
 	        byte[] bytes = file.getBytes();
 	        String fileName = file.getOriginalFilename();
@@ -104,7 +103,6 @@ public class AdminProductsController {
 	        	isFileOk = true;
 	        }
 	       
-	        // In case of success let's have some a message
 	        redirectAttributes.addFlashAttribute("message", "Product added");
 	        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 	        
@@ -167,7 +165,7 @@ public class AdminProductsController {
 	        Path path = Paths.get("src/main/resources/static/media/" + filename);
 
 	        if (!file.isEmpty()) {
-	            if (filename.endsWith("jpg") || filename.endsWith("png") ) {
+	            if (filename.endsWith("jpeg") || filename.endsWith("png") ) {
 	                fileOK = true;
 	            }
 	        } else {

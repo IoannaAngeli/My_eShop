@@ -7,17 +7,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="categories")
+@Table(name = "categories")
 public class Category {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private String name;
-	
+
 	private String slug;
-	
+
 	private int sorting;
 
 	public int getId() {
@@ -51,7 +51,5 @@ public class Category {
 	public void setSorting(int sorting) {
 		this.sorting = sorting;
 	}
-	
-	
 
 }

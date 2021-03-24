@@ -23,47 +23,46 @@ import com.ioanna.shopping.models.data.Page;
 @SuppressWarnings("unchecked")
 public class Common {
 
-    @Autowired
-    private PageRepository pageRepo;
+	@Autowired
+	private PageRepository pageRepo;
 
-    @Autowired
-    private CategoryRepository categoryRepo;
+	@Autowired
+	private CategoryRepository categoryRepo;
 
-    @ModelAttribute
-    public void sharedData(Model model, HttpSession session, Principal principal) {
+	@ModelAttribute
+	public void sharedData(Model model, HttpSession session, Principal principal) {
 
-        if (principal != null) {
-            model.addAttribute("principal", principal.getName());
-        }
+		if (principal != null) {
+			model.addAttribute("principal", principal.getName());
+		}
 
-        List<Page> pages = pageRepo.findAllByOrderBySortingAsc();
+		List<Page> pages = pageRepo.findAllByOrderBySortingAsc();
 
-        List<Category> categories = categoryRepo.findAllByOrderBySortingAsc();
+		List<Category> categories = categoryRepo.findAllByOrderBySortingAsc();
 
-        boolean cartActive = false;
+		boolean cartActive = false;
 
-        if (session.getAttribute("cart") != null) {
+		if (session.getAttribute("cart") != null) {
 
-           HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>)session.getAttribute("cart");
+			HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute("cart");
 
-            int size = 0;
-            double total = 0;
+			int size = 0;
+			double total = 0;
 
-            for (Cart value : cart.values()) {
-                size += value.getQuantity();
-                total += value.getQuantity() * Double.parseDouble(value.getPrice());
-            }
+			for (Cart value : cart.values()) {
+				size += value.getQuantity();
+				total += value.getQuantity() * Double.parseDouble(value.getPrice());
+			}
 
-            model.addAttribute("csize", size);
-            model.addAttribute("ctotal", total);
+			model.addAttribute("csize", size);
+			model.addAttribute("ctotal", total);
 
-            cartActive = true;
-        }
+			cartActive = true;
+		}
 
-        model.addAttribute("cpages", pages);
-        model.addAttribute("ccategories", categories);
-        model.addAttribute("cartActive", cartActive);
+		model.addAttribute("cpages", pages);
+		model.addAttribute("ccategories", categories);
+		model.addAttribute("cartActive", cartActive);
 
-
-    }
+	}
 }

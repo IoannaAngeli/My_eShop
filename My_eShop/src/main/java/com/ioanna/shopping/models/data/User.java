@@ -21,52 +21,52 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "users")
 public class User implements UserDetails {
 
-    private static final long serialVersionUID = 1l;
+	private static final long serialVersionUID = 1l;
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-    @Size(min=2, message = "Username must be at least 2 characters long")
-    private String username;
+	@Size(min = 2, message = "Username must be at least 2 characters long")
+	private String username;
 
-    @Size(min=4, message = "Password must be at least 4 characters long")
-    private String password;
+	@Size(min = 4, message = "Password must be at least 4 characters long")
+	private String password;
 
-    @Transient
-    private String confirmPassword;
+	@Transient
+	private String confirmPassword;
 
-    @Email(message = "Please enter a valid email")
-    private String email;
+	@Email(message = "Please enter a valid email")
+	private String email;
 
-    @Column(name = "phone_number")
-    @Size(min=6, message = "Phone number must be at least 6 characters long")
-    private String phoneNumber;
+	@Column(name = "phone_number")
+	@Size(min = 6, message = "Phone number must be at least 6 characters long")
+	private String phoneNumber;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
-    }
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+	}
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 
 	public int getId() {
 		return id;
@@ -114,16 +114,14 @@ public class User implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		
+
 		return this.password;
 	}
 
 	@Override
 	public String getUsername() {
-		
+
 		return this.username;
 	}
-	
-	
-    
+
 }
