@@ -12,6 +12,9 @@ Technologies used:
 ▪ Bootstrap
 ▪ Custom database backed websites
 
+You can visit the following link for a short presentation:
+https://studio.youtube.com/video/_KBo947Igno/edit
+
 ![image](https://user-images.githubusercontent.com/58227282/112344928-42183880-8ccd-11eb-9334-9dd860850ff6.png)
 
 ![image](https://user-images.githubusercontent.com/58227282/112345025-58be8f80-8ccd-11eb-8f6f-4dd45189c8c9.png)
